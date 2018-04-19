@@ -25,17 +25,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div>
+	<h3>Coordinate Converter</h3>
 	<!-- <paper-input value="{{myIp1}}" label="input 1"></paper-input>
 	<paper-input value="{{myIp2}}" label="input 2"></paper-input>
 	<paper-input value="{{myIp3}}" label="input 3"></paper-input>  testing-->
+	<paper-input value="{{myIp3}}" label="epsg"></paper-input>
+	EPSG&emsp;<a href="https://epsg.io/" target="_blank">epsg.io</a>
 	<paper-input value="{{myIp1}}" label="easting"></paper-input>
 	<paper-input value="{{myIp2}}" label="northing"></paper-input>
     </div>
     <div class="mt-20">
-	<paper-button raised on-tap="sendData">POST REQUEST</paper-button>
+	<paper-button raised on-tap="sendData">CONVERT</paper-button>
     </div>
     <div>
-	<h3>Longitude/Latitude</h3>
+	<h4>WGS 84 Longitude/Latitude</h4>
 	<!-- {{ssoDisplay}}<br> -->
 	lat: {{serverSuccessObj.lat}}<br>
 	lng: {{serverSuccessObj.lng}}	
@@ -46,7 +49,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
 
     <!-- url="https://jsonplaceholder.typicode.com/posts" -->
-    <iron-ajax-ex
+    <!-- 
+    <iron-ajax-example
 	url="http://gis.jkaelin.com:8081"
 	id="postExample"
 	handle-as="json"
@@ -57,8 +61,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	last-response="{{serverSuccessObj}}"
 	on-error="serverErrorCb"
 	last-error="{{serverErrorObj}}">
-	</iron-ajax-ex> 
-    <iron-ajax-text
+	</iron-ajax-example> 
+    <iron-ajax-test
 	url="http://gis.jkaelin.com:8081"
 	id="postExample"
 	method="POST"	
@@ -70,7 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	last-response="{{serverSuccessObj}}"
 	on-error="serverErrorCb"
 	last-error="{{serverErrorObj}}">
-    </iron-ajax-test>
+    </iron-ajax-test> -->
    <iron-ajax
 	url="http://gis.jkaelin.com:8081/coordinates"
 	id="postExample"
@@ -94,14 +98,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		myIp1: {
 		    type: String,
 		    notify: true,
+		    value:'2683418',
 		},
 		myIp2: {
 		    type: String,
 		    notify: true,
+		    value:'1246813',
 		},
 		myIp3: {
 		    type: String,
 		    notify: true,
+		    value:'2056',
 		},
 //		postBody: {
 //		    type: String,
@@ -109,7 +116,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //		},
 		postBody: {
 		    type: Object,
-		    computed: 'getPostBody(myIp1, myIp2)'
+		    computed: 'getPostBody(myIp1, myIp2, myIp3)'
 		},
 		serverErrorObj: Object,
 		serverSuccessObj: Object,
@@ -130,12 +137,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //		email: i3
 //	    };
 //	}
-	getPostBody(i1, i2) {
+	getPostBody(i1, i2, i3) {
 	    //console.log('easting: ', i1);
 	    //console.log('northing: ', i2);	    
 	    return {
 		easting: i1,
 		northing: i2,
+		epsg: i3,
 	    };
 	}
 	serverSuccessCb() {

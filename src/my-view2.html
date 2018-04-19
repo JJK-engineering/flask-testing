@@ -10,6 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="my-view2">
   <template>
@@ -21,19 +24,133 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <div class="card">
-      <div class="circle">2</div>
-      <h1>View Two</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+    <div>
+	<h3>Test</h3>
+	<paper-input value="{{myIp1}}" label="input 1"></paper-input>
+	<paper-input value="{{myIp2}}" label="input 2"></paper-input>
+	<paper-input value="{{myIp3}}" label="input 3"></paper-input>
     </div>
+    <div class="mt-20">
+	<paper-button raised on-tap="sendData">POST CONTENT</paper-button>
+    </div>
+    <br>
+    <div>
+	{{ssoDisplay}}<br>
+    </div>
+    <div>
+	<!--<h3>serverErrorObj</h3>-->
+	{{serverErrorObj}} 
+    </div>
+
+    <!-- url="https://jsonplaceholder.typicode.com/posts" -->
+    <!-- 
+    <iron-ajax-example
+	url="http://gis.jkaelin.com:8081"
+	id="postExample"
+	handle-as="json"
+	content-type="application/json"
+	method="POST"
+	body='{{postBody}}'
+	on-response="serverSuccessCb"
+	last-response="{{serverSuccessObj}}"
+	on-error="serverErrorCb"
+	last-error="{{serverErrorObj}}">
+	</iron-ajax-example> -->
+    <iron-ajax
+	url="http://gis.jkaelin.com:8081/test"
+	id="postExample"
+	method="POST"	
+	dataType= “json”
+	handle-as="json"
+	content-type="application/json"
+	params_='{"registration": "success", "name": "xyz", "email": "abc@gmail.com"}'
+	params='{{postBody}}'
+	on-response="serverSuccessCb"
+	last-response="{{serverSuccessObj}}"
+	on-error="serverErrorCb"
+	last-error="{{serverErrorObj}}">
+    </iron-ajax>
+   <!--<iron-ajax
+	url="http://gis.jkaelin.com:8081/coordinates"
+	id="postExample"
+	handle-as="json"
+	content-type="application/json"
+	method="POST"
+	params='{{postBody}}'
+	on-response="serverSuccessCb"
+	last-response="{{serverSuccessObj}}"
+	on-error="serverErrorCb"
+	last-error="{{serverErrorObj}}">
+	</iron-ajax> -->
   </template>
 
   <script>
     class MyView2 extends Polymer.Element {
-      static get is() { return 'my-view2'; }
-    }
+	static get is() { return 'my-view2'; }
 
+	static get properties() {
+	    return {
+		myIp1: {
+		    type: String,
+		    notify: true,
+		    value:'success',
+		},
+		myIp2: {
+		    type: String,
+		    notify: true,
+		},
+		myIp3: {
+		    type: String,
+		    notify: true,
+		},
+//		postBody: {
+//		    type: String,
+//		    computed: 'getPostBody(myIp1, myIp2, myIp3)'
+//		},
+		postBody: {
+		    type: Object,
+		    computed: 'getPostBody(myIp1, myIp2, myIp3)'
+		},
+		serverErrorObj: Object,
+		serverSuccessObj: Object,
+		ssoDisplay: {
+		    type: String,
+		    computed: 'getSso(serverSuccessObj)'
+		}
+	    }
+	}
+
+	sendData(event) {
+	    this.shadowRoot.querySelector('iron-ajax').generateRequest();
+	}
+	getPostBody(i1, i2, i3) {  //testing, works
+	    return {
+		registration: i1,
+		name: i2,
+		email: i3
+	    };
+	}
+//	getPostBody(i1, i2, i3) {
+//	    //console.log('easting: ', i1);
+//	    //console.log('northing: ', i2);	    
+//	    return {
+//		easting: i1,
+//		northing: i2,
+//		epsg: i3,
+//	    };
+//	}
+	serverSuccessCb() {
+	    console.log('serverSuccesCb');
+	    console.log('ssoDisplay: ',this.ssoDisplay); 
+	}
+	serverErrorCb() {
+	    console.log('serverErrorCb');
+	}
+	getSso(serverSuccessObj) {
+	    return JSON.stringify(serverSuccessObj);
+	}
+    }
+   
     window.customElements.define(MyView2.is, MyView2);
   </script>
 </dom-module>
