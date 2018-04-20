@@ -1,12 +1,4 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
+<!-- Testing -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
@@ -38,7 +30,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	{{ssoDisplay}}<br>
     </div>
     <div>
-	<!--<h3>serverErrorObj</h3>-->
 	{{serverErrorObj}} 
     </div>
 
@@ -63,25 +54,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	dataType= “json”
 	handle-as="json"
 	content-type="application/json"
-	params_='{"registration": "success", "name": "xyz", "email": "abc@gmail.com"}'
+	params__='{"registration": "success", "name": "xyz", "email": "abc@gmail.com"}'
 	params='{{postBody}}'
 	on-response="serverSuccessCb"
 	last-response="{{serverSuccessObj}}"
 	on-error="serverErrorCb"
 	last-error="{{serverErrorObj}}">
     </iron-ajax>
-   <!--<iron-ajax
-	url="http://gis.jkaelin.com:8081/coordinates"
-	id="postExample"
-	handle-as="json"
-	content-type="application/json"
-	method="POST"
-	params='{{postBody}}'
-	on-response="serverSuccessCb"
-	last-response="{{serverSuccessObj}}"
-	on-error="serverErrorCb"
-	last-error="{{serverErrorObj}}">
-	</iron-ajax> -->
   </template>
 
   <script>
@@ -103,10 +82,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		    type: String,
 		    notify: true,
 		},
-//		postBody: {
-//		    type: String,
-//		    computed: 'getPostBody(myIp1, myIp2, myIp3)'
-//		},
+		//postBody: {
+		//    type: String,
+		//    computed: 'getPostBody(myIp1, myIp2, myIp3)'
+		//},
 		postBody: {
 		    type: Object,
 		    computed: 'getPostBody(myIp1, myIp2, myIp3)'
@@ -130,15 +109,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		email: i3
 	    };
 	}
-//	getPostBody(i1, i2, i3) {
-//	    //console.log('easting: ', i1);
-//	    //console.log('northing: ', i2);	    
-//	    return {
-//		easting: i1,
-//		northing: i2,
-//		epsg: i3,
-//	    };
-//	}
 	serverSuccessCb() {
 	    console.log('serverSuccesCb');
 	    console.log('ssoDisplay: ',this.ssoDisplay); 
