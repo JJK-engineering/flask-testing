@@ -39,9 +39,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
     <div>
 	<h4>WGS 84 Longitude/Latitude</h4>
-	<!-- {{ssoDisplay}}<br> -->
-	lat: {{serverSuccessObj.lat}}<br>
-	lng: {{serverSuccessObj.lng}}	
+	<!--lat: {{serverSuccessObj.lat}}<br>
+	lng: {{serverSuccessObj.lng}}-->
+	lat: {{ssoDisplay.lat}}<br>
+	lng: {{ssoDisplay.lng}}	
     </div>
     <div>
 	<!-- <h3>serverErrorObj</h3>
@@ -153,8 +154,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	serverErrorCb() {
 	    console.log('serverErrorCb');
 	}
+//	getSso(serverSuccessObj) {
+//	    return JSON.stringify(serverSuccessObj);
+//	}
 	getSso(serverSuccessObj) {
-	    return JSON.stringify(serverSuccessObj);
+	    // testing to improve display of lists in {{serverSuccessObj}}
+	    //   only testing 2results in whitespace between list elemeents,
+	    //   but brackets displayed and ugly
+	    //console.log('lat: ',String(serverSuccessObj.lat));  //testing, ok
+	    //console.log('lat: ',String(serverSuccessObj.lat).split(','));  //testing, ok
+	    return ({'lat': String(serverSuccessObj.lat).split(','),  //testing 1, ok
+	    	     'lng': String(serverSuccessObj.lng).split(',')});  //testing 1, ok
+	    //return ({'lat': JSON.stringify(serverSuccessObj.lat, null, '  '),  //testing 2, ok
+	    //	     'lng': JSON.stringify(serverSuccessObj.lng, null, 4)});   //tsting 2, ok
+	    //return JSON.stringify(serverSuccessObj, null, '  ');  //testing 0, ok
 	}
     }
    
